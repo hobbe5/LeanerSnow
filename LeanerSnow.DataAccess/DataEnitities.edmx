@@ -1,0 +1,637 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+          <Property Name="Image" Type="int" />
+          <Property Name="Type" Type="int" />
+          <Property Name="Deleted" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Contributors">
+          <Key>
+            <PropertyRef Name="CNID" />
+          </Key>
+          <Property Name="CNID" Type="int" Nullable="false" />
+          <Property Name="CNName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CNEmail" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="CNPassword" Type="varchar" MaxLength="255" />
+          <Property Name="CNImage" Type="int" />
+          <Property Name="CNCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Path" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImageType">
+          <Key>
+            <PropertyRef Name="ITID" />
+          </Key>
+          <Property Name="ITID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ITType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="1000" />
+          <Property Name="Image" Type="int" />
+          <Property Name="Deleted" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Caption" Type="varchar" MaxLength="50" />
+          <Property Name="Intro" Type="varchar" MaxLength="500" />
+          <Property Name="Content" Type="varchar" MaxLength="2000" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="150" />
+          <Property Name="Deleted" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'socialdiner.dbo.xProjectContributor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="xProjectContributor">
+          <Key>
+            <PropertyRef Name="ContributorID" />
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ContributorID" Type="int" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'socialdiner.dbo.xProjectImage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="xProjectImage">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="ImageID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'socialdiner.dbo.xProjectOrganization' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="xProjectOrganization">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="OrgID" />
+          </Key>
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="OrgID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'socialdiner.dbo.xProjectTask' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="xProjectTask">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="TaskId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Category_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Category1" Type="Self.Category" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contributors_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Contributors" Type="Self.Contributors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contributors">
+              <PropertyRef Name="CNImage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Images_Organization">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Organization" Type="Self.Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organization">
+              <PropertyRef Name="Image" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_xProjectContributor_Contributors">
+          <End Role="Contributors" Type="Self.Contributors" Multiplicity="1" />
+          <End Role="xProjectContributor" Type="Self.xProjectContributor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contributors">
+              <PropertyRef Name="CNID" />
+            </Principal>
+            <Dependent Role="xProjectContributor">
+              <PropertyRef Name="ContributorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_xProjectContributor_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="xProjectContributor" Type="Self.xProjectContributor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="xProjectContributor">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_xProjectImage_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="1" />
+          <End Role="xProjectImage" Type="Self.xProjectImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="xProjectImage">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_xProjectImage_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="xProjectImage" Type="Self.xProjectImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="xProjectImage">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_xProjectOrganization_Organization">
+          <End Role="Organization" Type="Self.Organization" Multiplicity="1" />
+          <End Role="xProjectOrganization" Type="Self.xProjectOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="xProjectOrganization">
+              <PropertyRef Name="OrgID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_xProjectOrganization_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="xProjectOrganization" Type="Self.xProjectOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="xProjectOrganization">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_xProjectTask_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="xProjectTask" Type="Self.xProjectTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="xProjectTask">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_xProjectTask_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="xProjectTask" Type="Self.xProjectTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="xProjectTask">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contributors" EntityType="Self.Contributors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImageType" EntityType="Self.ImageType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="xProjectContributor" EntityType="Self.xProjectContributor" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [xProjectContributor].[ContributorID] AS [ContributorID], 
+    [xProjectContributor].[ProjectID] AS [ProjectID]
+    FROM [dbo].[xProjectContributor] AS [xProjectContributor]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="xProjectImage" EntityType="Self.xProjectImage" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [xProjectImage].[ProjectID] AS [ProjectID], 
+    [xProjectImage].[ImageID] AS [ImageID]
+    FROM [dbo].[xProjectImage] AS [xProjectImage]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="xProjectOrganization" EntityType="Self.xProjectOrganization" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [xProjectOrganization].[ProjectID] AS [ProjectID], 
+    [xProjectOrganization].[OrgID] AS [OrgID]
+    FROM [dbo].[xProjectOrganization] AS [xProjectOrganization]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="xProjectTask" EntityType="Self.xProjectTask" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [xProjectTask].[ProjectID] AS [ProjectID], 
+    [xProjectTask].[TaskId] AS [TaskId]
+    FROM [dbo].[xProjectTask] AS [xProjectTask]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Category_Category" Association="Self.FK_Category_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Category1" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contributors_Images" Association="Self.FK_Contributors_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Contributors" EntitySet="Contributors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Images_Organization" Association="Self.FK_Images_Organization">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Organization" EntitySet="Organization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_xProjectContributor_Contributors" Association="Self.FK_xProjectContributor_Contributors">
+            <End Role="Contributors" EntitySet="Contributors" />
+            <End Role="xProjectContributor" EntitySet="xProjectContributor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_xProjectContributor_Projects" Association="Self.FK_xProjectContributor_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="xProjectContributor" EntitySet="xProjectContributor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_xProjectImage_Images" Association="Self.FK_xProjectImage_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="xProjectImage" EntitySet="xProjectImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_xProjectImage_Projects" Association="Self.FK_xProjectImage_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="xProjectImage" EntitySet="xProjectImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_xProjectOrganization_Organization" Association="Self.FK_xProjectOrganization_Organization">
+            <End Role="Organization" EntitySet="Organization" />
+            <End Role="xProjectOrganization" EntitySet="xProjectOrganization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_xProjectOrganization_Projects" Association="Self.FK_xProjectOrganization_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="xProjectOrganization" EntitySet="xProjectOrganization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_xProjectTask_Projects" Association="Self.FK_xProjectTask_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="xProjectTask" EntitySet="xProjectTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_xProjectTask_Tasks" Association="Self.FK_xProjectTask_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="xProjectTask" EntitySet="xProjectTask" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="Int32" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="Deleted" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Category1" Relationship="Self.FK_Category_Category" FromRole="Category" ToRole="Category1" />
+          <NavigationProperty Name="Category2" Relationship="Self.FK_Category_Category" FromRole="Category1" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="Contributor">
+          <Key>
+            <PropertyRef Name="CNID" />
+          </Key>
+          <Property Name="CNID" Type="Int32" Nullable="false" />
+          <Property Name="CNName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CNEmail" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CNPassword" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CNImage" Type="Int32" />
+          <Property Name="CNCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Image" Relationship="Self.FK_Contributors_Images" FromRole="Contributors" ToRole="Images" />
+          <NavigationProperty Name="Projects" Relationship="Self.xProjectContributor" FromRole="Contributors" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contributors" Relationship="Self.FK_Contributors_Images" FromRole="Images" ToRole="Contributors" />
+          <NavigationProperty Name="Organizations" Relationship="Self.FK_Images_Organization" FromRole="Images" ToRole="Organization" />
+          <NavigationProperty Name="Projects" Relationship="Self.xProjectImage" FromRole="Images" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="ImageType">
+          <Key>
+            <PropertyRef Name="ITID" />
+          </Key>
+          <Property Name="ITID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ITType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="Int32" />
+          <Property Name="Deleted" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Image1" Relationship="Self.FK_Images_Organization" FromRole="Organization" ToRole="Images" />
+          <NavigationProperty Name="Projects" Relationship="Self.xProjectOrganization" FromRole="Organization" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Caption" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Intro" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Deleted" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Contributors" Relationship="Self.xProjectContributor" FromRole="Projects" ToRole="Contributors" />
+          <NavigationProperty Name="Images" Relationship="Self.xProjectImage" FromRole="Projects" ToRole="Images" />
+          <NavigationProperty Name="Organizations" Relationship="Self.xProjectOrganization" FromRole="Projects" ToRole="Organization" />
+          <NavigationProperty Name="Tasks" Relationship="Self.xProjectTask" FromRole="Projects" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Projects" Relationship="Self.xProjectTask" FromRole="Tasks" ToRole="Projects" />
+        </EntityType>
+        <Association Name="FK_Category_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Category1" Type="Self.Category" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contributors_Images">
+          <End Role="Images" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="Contributors" Type="Self.Contributor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contributors">
+              <PropertyRef Name="CNImage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Images_Organization">
+          <End Role="Images" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="Organization" Type="Self.Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organization">
+              <PropertyRef Name="Image" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="xProjectContributor">
+          <End Role="Contributors" Type="Self.Contributor" Multiplicity="*" />
+          <End Role="Projects" Type="Self.Project" Multiplicity="*" />
+        </Association>
+        <Association Name="xProjectImage">
+          <End Role="Images" Type="Self.Image" Multiplicity="*" />
+          <End Role="Projects" Type="Self.Project" Multiplicity="*" />
+        </Association>
+        <Association Name="xProjectOrganization">
+          <End Role="Organization" Type="Self.Organization" Multiplicity="*" />
+          <End Role="Projects" Type="Self.Project" Multiplicity="*" />
+        </Association>
+        <Association Name="xProjectTask">
+          <End Role="Projects" Type="Self.Project" Multiplicity="*" />
+          <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="socialdinerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Contributors" EntityType="Self.Contributor" />
+          <EntitySet Name="Images" EntityType="Self.Image" />
+          <EntitySet Name="ImageTypes" EntityType="Self.ImageType" />
+          <EntitySet Name="Organizations" EntityType="Self.Organization" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="Tasks" EntityType="Self.Task" />
+          <AssociationSet Name="FK_Category_Category" Association="Self.FK_Category_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Category1" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contributors_Images" Association="Self.FK_Contributors_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Contributors" EntitySet="Contributors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Images_Organization" Association="Self.FK_Images_Organization">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Organization" EntitySet="Organizations" />
+          </AssociationSet>
+          <AssociationSet Name="xProjectContributor" Association="Self.xProjectContributor">
+            <End Role="Contributors" EntitySet="Contributors" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="xProjectImage" Association="Self.xProjectImage">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="xProjectOrganization" Association="Self.xProjectOrganization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="xProjectTask" Association="Self.xProjectTask">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="socialdinerEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="DataModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contributors">
+            <EntityTypeMapping TypeName="DataModel.Contributor">
+              <MappingFragment StoreEntitySet="Contributors">
+                <ScalarProperty Name="CNID" ColumnName="CNID" />
+                <ScalarProperty Name="CNName" ColumnName="CNName" />
+                <ScalarProperty Name="CNEmail" ColumnName="CNEmail" />
+                <ScalarProperty Name="CNPassword" ColumnName="CNPassword" />
+                <ScalarProperty Name="CNImage" ColumnName="CNImage" />
+                <ScalarProperty Name="CNCreated" ColumnName="CNCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="DataModel.Image">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImageTypes">
+            <EntityTypeMapping TypeName="DataModel.ImageType">
+              <MappingFragment StoreEntitySet="ImageType">
+                <ScalarProperty Name="ITID" ColumnName="ITID" />
+                <ScalarProperty Name="ITType" ColumnName="ITType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizations">
+            <EntityTypeMapping TypeName="DataModel.Organization">
+              <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="DataModel.Project">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="Intro" ColumnName="Intro" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="DataModel.Task">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="xProjectContributor" TypeName="DataModel.xProjectContributor" StoreEntitySet="xProjectContributor">
+            <EndProperty Name="Contributors">
+              <ScalarProperty Name="CNID" ColumnName="ContributorID" />
+            </EndProperty>
+            <EndProperty Name="Projects">
+              <ScalarProperty Name="Id" ColumnName="ProjectID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="xProjectImage" TypeName="DataModel.xProjectImage" StoreEntitySet="xProjectImage">
+            <EndProperty Name="Images">
+              <ScalarProperty Name="Id" ColumnName="ImageID" />
+            </EndProperty>
+            <EndProperty Name="Projects">
+              <ScalarProperty Name="Id" ColumnName="ProjectID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="xProjectOrganization" TypeName="DataModel.xProjectOrganization" StoreEntitySet="xProjectOrganization">
+            <EndProperty Name="Organization">
+              <ScalarProperty Name="Id" ColumnName="OrgID" />
+            </EndProperty>
+            <EndProperty Name="Projects">
+              <ScalarProperty Name="Id" ColumnName="ProjectID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="xProjectTask" TypeName="DataModel.xProjectTask" StoreEntitySet="xProjectTask">
+            <EndProperty Name="Projects">
+              <ScalarProperty Name="Id" ColumnName="ProjectID" />
+            </EndProperty>
+            <EndProperty Name="Tasks">
+              <ScalarProperty Name="Id" ColumnName="TaskId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
