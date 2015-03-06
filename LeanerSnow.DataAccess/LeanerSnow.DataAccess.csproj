@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="DataEnitities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
