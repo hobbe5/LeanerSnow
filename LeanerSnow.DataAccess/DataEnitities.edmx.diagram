@@ -5,20 +5,17 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="73dcfca81ae144e5978a076865b4328f" Name="Diagram1">
-        <EntityTypeShape EntityType="DataModel.Category" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Contributor" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Image" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.ImageType" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Organization" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Project" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DataModel.Task" Width="1.5" PointX="7.5" PointY="3.5" IsExpanded="true" />
-        <AssociationConnector Association="DataModel.FK_Category_Category" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Contributors_Images" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.FK_Images_Organization" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.xProjectContributor" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.xProjectImage" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.xProjectOrganization" ManuallyRouted="false" />
         <AssociationConnector Association="DataModel.xProjectTask" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DataModel.User" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="DataModel.FK_Contributors_Images" />
+        <AssociationConnector Association="DataModel.xProjectUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

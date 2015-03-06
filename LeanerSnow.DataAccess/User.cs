@@ -7,21 +7,26 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess
+namespace LeanerSnow.DataAccess
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Category
+    public partial class User
     {
+        public User()
+        {
+            this.Projects = new HashSet<Project>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
         public Nullable<int> Image { get; set; }
-        public Nullable<int> Type { get; set; }
-        public Nullable<System.DateTime> Deleted { get; set; }
+        public System.DateTime Created { get; set; }
     
-        public virtual Category Category1 { get; set; }
-        public virtual Category Category2 { get; set; }
+        public virtual Image Image1 { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
 }

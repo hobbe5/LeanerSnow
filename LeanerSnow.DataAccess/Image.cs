@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess
+namespace LeanerSnow.DataAccess
 {
     using System;
     using System.Collections.Generic;
@@ -16,17 +16,17 @@ namespace DataAccess
     {
         public Image()
         {
-            this.Contributors = new HashSet<Contributor>();
             this.Organizations = new HashSet<Organization>();
             this.Projects = new HashSet<Project>();
+            this.Users = new HashSet<User>();
         }
     
         public int Id { get; set; }
         public int Type { get; set; }
         public string Path { get; set; }
     
-        public virtual ICollection<Contributor> Contributors { get; set; }
         public virtual ICollection<Organization> Organizations { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

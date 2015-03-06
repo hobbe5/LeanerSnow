@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataAccess
+namespace LeanerSnow.DataAccess
 {
     using System;
     using System.Collections.Generic;
@@ -16,10 +16,10 @@ namespace DataAccess
     {
         public Project()
         {
-            this.Contributors = new HashSet<Contributor>();
             this.Images = new HashSet<Image>();
             this.Organizations = new HashSet<Organization>();
             this.Tasks = new HashSet<Task>();
+            this.Users = new HashSet<User>();
         }
     
         public int Id { get; set; }
@@ -31,9 +31,9 @@ namespace DataAccess
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Deleted { get; set; }
     
-        public virtual ICollection<Contributor> Contributors { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<Organization> Organizations { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }
